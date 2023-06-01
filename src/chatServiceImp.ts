@@ -1,5 +1,5 @@
 import { CallContext } from "nice-grpc";
-import { ChatServiceImplementation, ChatRequest, ChatResponse, DeepPartial } from '../proto/compiled_proto/chat'
+import { ChatServiceImplementation, ChatRequest, ChatResponse, DeepPartial } from '../proto/chat'
 import {delay} from 'abort-controller-x';
 import { ServerError, Status } from "nice-grpc";
 
@@ -8,7 +8,8 @@ export const chatServiceImpl: ChatServiceImplementation = {
     //unary
     async sendChat(request: ChatRequest): Promise<DeepPartial<ChatResponse>> {
         try {
-            const response = {name: 'miri', message: 'hello world'}
+            const response = {name: 'miri', message: 'goodbye world'}
+            console.log(`REQ:`, request)
             return response;
             
         } catch (error) {

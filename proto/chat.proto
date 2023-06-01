@@ -1,20 +1,16 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 package chat;
 
 message ChatRequest {
   string name = 1;
-  string message = 3;
-  google.protobuf.Timestamp my_field = 2;
+  string message = 2;
 }
 
 
 message ChatResponse {
   string name = 1;
-  string message = 3;
-  google.protobuf.Timestamp my_field = 2;
+  string message = 2;
 }
 
 /* SendChat - unary
