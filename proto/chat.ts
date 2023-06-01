@@ -1,24 +1,21 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
 import * as _m0 from "protobufjs/minimal";
-import { Timestamp } from "./google/protobuf/timestamp";
 
 export const protobufPackage = "chat";
 
 export interface ChatRequest {
   name: string;
   message: string;
-  myField: Date | undefined;
 }
 
 export interface ChatResponse {
   name: string;
   message: string;
-  myField: Date | undefined;
 }
 
 function createBaseChatRequest(): ChatRequest {
-  return { name: "", message: "", myField: undefined };
+  return { name: "", message: "" };
 }
 
 export const ChatRequest = {
@@ -27,10 +24,7 @@ export const ChatRequest = {
       writer.uint32(10).string(message.name);
     }
     if (message.message !== "") {
-      writer.uint32(26).string(message.message);
-    }
-    if (message.myField !== undefined) {
-      Timestamp.encode(toTimestamp(message.myField), writer.uint32(18).fork()).ldelim();
+      writer.uint32(18).string(message.message);
     }
     return writer;
   },
@@ -49,19 +43,12 @@ export const ChatRequest = {
 
           message.name = reader.string();
           continue;
-        case 3:
-          if (tag !== 26) {
-            break;
-          }
-
-          message.message = reader.string();
-          continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.myField = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
+          message.message = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -76,7 +63,6 @@ export const ChatRequest = {
     return {
       name: isSet(object.name) ? String(object.name) : "",
       message: isSet(object.message) ? String(object.message) : "",
-      myField: isSet(object.myField) ? fromJsonTimestamp(object.myField) : undefined,
     };
   },
 
@@ -84,7 +70,6 @@ export const ChatRequest = {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.message !== undefined && (obj.message = message.message);
-    message.myField !== undefined && (obj.myField = message.myField.toISOString());
     return obj;
   },
 
@@ -96,13 +81,12 @@ export const ChatRequest = {
     const message = createBaseChatRequest();
     message.name = object.name ?? "";
     message.message = object.message ?? "";
-    message.myField = object.myField ?? undefined;
     return message;
   },
 };
 
 function createBaseChatResponse(): ChatResponse {
-  return { name: "", message: "", myField: undefined };
+  return { name: "", message: "" };
 }
 
 export const ChatResponse = {
@@ -111,10 +95,7 @@ export const ChatResponse = {
       writer.uint32(10).string(message.name);
     }
     if (message.message !== "") {
-      writer.uint32(26).string(message.message);
-    }
-    if (message.myField !== undefined) {
-      Timestamp.encode(toTimestamp(message.myField), writer.uint32(18).fork()).ldelim();
+      writer.uint32(18).string(message.message);
     }
     return writer;
   },
@@ -133,19 +114,12 @@ export const ChatResponse = {
 
           message.name = reader.string();
           continue;
-        case 3:
-          if (tag !== 26) {
-            break;
-          }
-
-          message.message = reader.string();
-          continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.myField = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
+          message.message = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -160,7 +134,6 @@ export const ChatResponse = {
     return {
       name: isSet(object.name) ? String(object.name) : "",
       message: isSet(object.message) ? String(object.message) : "",
-      myField: isSet(object.myField) ? fromJsonTimestamp(object.myField) : undefined,
     };
   },
 
@@ -168,7 +141,6 @@ export const ChatResponse = {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.message !== undefined && (obj.message = message.message);
-    message.myField !== undefined && (obj.myField = message.myField.toISOString());
     return obj;
   },
 
@@ -180,7 +152,6 @@ export const ChatResponse = {
     const message = createBaseChatResponse();
     message.name = object.name ?? "";
     message.message = object.message ?? "";
-    message.myField = object.myField ?? undefined;
     return message;
   },
 };
@@ -247,28 +218,6 @@ export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
-
-function toTimestamp(date: Date): Timestamp {
-  const seconds = date.getTime() / 1_000;
-  const nanos = (date.getTime() % 1_000) * 1_000_000;
-  return { seconds, nanos };
-}
-
-function fromTimestamp(t: Timestamp): Date {
-  let millis = (t.seconds || 0) * 1_000;
-  millis += (t.nanos || 0) / 1_000_000;
-  return new Date(millis);
-}
-
-function fromJsonTimestamp(o: any): Date {
-  if (o instanceof Date) {
-    return o;
-  } else if (typeof o === "string") {
-    return new Date(o);
-  } else {
-    return fromTimestamp(Timestamp.fromJSON(o));
-  }
-}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
