@@ -11,7 +11,7 @@ const client: ChatServiceClient = clientFactory.create(ChatServiceDefinition, ch
 
 //unary call here:
 const unaryCall = async() => {
-    const response = await client.sendChat({name: 'jackson', message:'hello world'})
+    const response = await client.sendChat({name: 'eden', message:'hello world'})
     console.log(response)
 }
 
