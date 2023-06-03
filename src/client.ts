@@ -1,4 +1,4 @@
-import { createChannel, createClient, ClientFactory, createClientFactory } from "nice-grpc";
+import { createChannel, createClientFactory } from "nice-grpc";
 import { ChatServiceClient, ChatServiceDefinition } from "../proto/chat";
 import { prometheusClientMiddleware } from "nice-grpc-prometheus";
 
@@ -11,8 +11,8 @@ const client: ChatServiceClient = clientFactory.create(ChatServiceDefinition, ch
 
 //unary call here:
 const unaryCall = async() => {
-    const response = await client.sendChat({name: 'eden', message:'hello world'})
-    console.log(response)
+    const response = await client.sendChat({name: 'jackson', message:'hello world'})
+    console.log(response);
 }
 
 unaryCall();
